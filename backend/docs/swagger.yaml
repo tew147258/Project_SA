@@ -1,0 +1,702 @@
+basePath: /api/v1
+definitions:
+  controllers.Confirmation:
+    properties:
+      adddate:
+        type: string
+      bookingend:
+        type: string
+      bookingstart:
+        type: string
+      borrow:
+        type: integer
+      hourstime:
+        type: string
+      stadium:
+        type: integer
+      user:
+        type: integer
+    type: object
+  ent.Borrow:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.BorrowEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the BorrowQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      type:
+        description: Type holds the value of the "type" field.
+        type: string
+    type: object
+  ent.BorrowEdges:
+    properties:
+      borrowConfirmation:
+        description: BorrowConfirmation holds the value of the BorrowConfirmation edge.
+        items:
+          $ref: '#/definitions/ent.Confirmation'
+        type: array
+    type: object
+  ent.Confirmation:
+    properties:
+      adddate:
+        description: Adddate holds the value of the "adddate" field.
+        type: string
+      bookingend:
+        description: Bookingend holds the value of the "bookingend" field.
+        type: string
+      bookingstart:
+        description: Bookingstart holds the value of the "bookingstart" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.ConfirmationEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the ConfirmationQuery when eager-loading is set.
+        type: object
+      hourstime:
+        description: Hourstime holds the value of the "hourstime" field.
+        type: integer
+      id:
+        description: ID of the ent.
+        type: integer
+    type: object
+  ent.ConfirmationEdges:
+    properties:
+      confirmationBorrow:
+        $ref: '#/definitions/ent.Borrow'
+        description: ConfirmationBorrow holds the value of the ConfirmationBorrow edge.
+        type: object
+      confirmationStadium:
+        $ref: '#/definitions/ent.Stadium'
+        description: ConfirmationStadium holds the value of the ConfirmationStadium edge.
+        type: object
+      confirmationUser:
+        $ref: '#/definitions/ent.User'
+        description: ConfirmationUser holds the value of the ConfirmationUser edge.
+        type: object
+    type: object
+  ent.Stadium:
+    properties:
+      edges:
+        $ref: '#/definitions/ent.StadiumEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the StadiumQuery when eager-loading is set.
+        type: object
+      id:
+        description: ID of the ent.
+        type: integer
+      namestadium:
+        description: Namestadium holds the value of the "namestadium" field.
+        type: string
+    type: object
+  ent.StadiumEdges:
+    properties:
+      stadiumConfirmation:
+        description: StadiumConfirmation holds the value of the StadiumConfirmation edge.
+        items:
+          $ref: '#/definitions/ent.Confirmation'
+        type: array
+    type: object
+  ent.User:
+    properties:
+      birthday:
+        description: Birthday holds the value of the "birthday" field.
+        type: string
+      edges:
+        $ref: '#/definitions/ent.UserEdges'
+        description: |-
+          Edges holds the relations/edges for other nodes in the graph.
+          The values are being populated by the UserQuery when eager-loading is set.
+        type: object
+      email:
+        description: Email holds the value of the "email" field.
+        type: string
+      id:
+        description: ID of the ent.
+        type: integer
+      name:
+        description: Name holds the value of the "name" field.
+        type: string
+      password:
+        description: Password holds the value of the "password" field.
+        type: string
+      tel:
+        description: Tel holds the value of the "tel" field.
+        type: string
+    type: object
+  ent.UserEdges:
+    properties:
+      userConfirmation:
+        description: UserConfirmation holds the value of the UserConfirmation edge.
+        items:
+          $ref: '#/definitions/ent.Confirmation'
+        type: array
+    type: object
+  gin.H:
+    additionalProperties: true
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for SUT SE 2563
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: SUT SA Example API
+  version: "1.0"
+paths:
+  /borrows:
+    get:
+      description: list borrow entities
+      operationId: list-borrow
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Borrow'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List borrow entities
+    post:
+      consumes:
+      - application/json
+      description: Create borrow
+      operationId: create-borrow
+      parameters:
+      - description: Borrow entity
+        in: body
+        name: borrow
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Borrow'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Borrow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create borrow
+  /borrows/{id}:
+    get:
+      description: get borrow by ID
+      operationId: get-borrow
+      parameters:
+      - description: Borrow ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Borrow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a borrow entity by ID
+  /confirmations:
+    get:
+      description: list confirmation entities
+      operationId: list-confirmation
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Confirmation'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List confirmation entities
+    post:
+      consumes:
+      - application/json
+      description: Create confirmation
+      operationId: create-confirmation
+      parameters:
+      - description: Confirmation entity
+        in: body
+        name: confirmation
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Confirmation'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Confirmation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create confirmation
+  /confirmations/{id}:
+    delete:
+      description: get confirmation by ID
+      operationId: delete-confirmation
+      parameters:
+      - description: Confirmation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a confirmation entity by ID
+    get:
+      description: get confirmation by ID
+      operationId: get-confirmation
+      parameters:
+      - description: Confirmation ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Confirmation'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a confirmation entity by ID
+  /stadiums:
+    get:
+      description: list stadium entities
+      operationId: list-stadium
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.Stadium'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List stadium entities
+    post:
+      consumes:
+      - application/json
+      description: Create stadium
+      operationId: create-stadium
+      parameters:
+      - description: Stadium entity
+        in: body
+        name: stadium
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Stadium'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stadium'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create stadium
+  /stadiums/{id}:
+    delete:
+      description: get stadium by ID
+      operationId: delete-stadium
+      parameters:
+      - description: Stadium ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a stadium entity by ID
+    get:
+      description: get stadium by ID
+      operationId: get-stadium
+      parameters:
+      - description: Stadium ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stadium'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a stadium entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update stadium by ID
+      operationId: update-stadium
+      parameters:
+      - description: Stadium ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Stadium entity
+        in: body
+        name: stadium
+        required: true
+        schema:
+          $ref: '#/definitions/ent.Stadium'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.Stadium'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a stadium entity by ID
+  /users:
+    get:
+      description: list user entities
+      operationId: list-user
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      - description: Offset
+        in: query
+        name: offset
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/ent.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: List user entities
+    post:
+      consumes:
+      - application/json
+      description: Create user
+      operationId: create-user
+      parameters:
+      - description: User entity
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ent.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Create user
+  /users/{id}:
+    delete:
+      description: get user by ID
+      operationId: delete-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/gin.H'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Delete a user entity by ID
+    get:
+      description: get user by ID
+      operationId: get-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Get a user entity by ID
+    put:
+      consumes:
+      - application/json
+      description: update user by ID
+      operationId: update-user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: User entity
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/ent.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/ent.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/gin.H'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/gin.H'
+      summary: Update a user entity by ID
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+  BasicAuth:
+    type: basic
+  OAuth2AccessCode:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: accessCode
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Application:
+    flow: application
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+  OAuth2Implicit:
+    authorizationUrl: https://example.com/oauth/authorize
+    flow: implicit
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      write: ' Grants write access'
+    type: oauth2
+  OAuth2Password:
+    flow: password
+    scopes:
+      admin: ' Grants read and write access to administrative information'
+      read: ' Grants read access'
+      write: ' Grants write access'
+    tokenUrl: https://example.com/oauth/token
+    type: oauth2
+swagger: "2.0"
