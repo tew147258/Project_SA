@@ -406,7 +406,7 @@ type ConfirmationMutation struct {
 	op                          Op
 	typ                         string
 	id                          *int
-	adddate                     *time.Time
+	bookingdate                 *time.Time
 	bookingstart                *time.Time
 	bookingend                  *time.Time
 	hourstime                   *int
@@ -501,41 +501,41 @@ func (m *ConfirmationMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetAdddate sets the adddate field.
-func (m *ConfirmationMutation) SetAdddate(t time.Time) {
-	m.adddate = &t
+// SetBookingdate sets the bookingdate field.
+func (m *ConfirmationMutation) SetBookingdate(t time.Time) {
+	m.bookingdate = &t
 }
 
-// Adddate returns the adddate value in the mutation.
-func (m *ConfirmationMutation) Adddate() (r time.Time, exists bool) {
-	v := m.adddate
+// Bookingdate returns the bookingdate value in the mutation.
+func (m *ConfirmationMutation) Bookingdate() (r time.Time, exists bool) {
+	v := m.bookingdate
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldAdddate returns the old adddate value of the Confirmation.
+// OldBookingdate returns the old bookingdate value of the Confirmation.
 // If the Confirmation object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *ConfirmationMutation) OldAdddate(ctx context.Context) (v time.Time, err error) {
+func (m *ConfirmationMutation) OldBookingdate(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldAdddate is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldBookingdate is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldAdddate requires an ID field in the mutation")
+		return v, fmt.Errorf("OldBookingdate requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldAdddate: %w", err)
+		return v, fmt.Errorf("querying old value for OldBookingdate: %w", err)
 	}
-	return oldValue.Adddate, nil
+	return oldValue.Bookingdate, nil
 }
 
-// ResetAdddate reset all changes of the "adddate" field.
-func (m *ConfirmationMutation) ResetAdddate() {
-	m.adddate = nil
+// ResetBookingdate reset all changes of the "bookingdate" field.
+func (m *ConfirmationMutation) ResetBookingdate() {
+	m.bookingdate = nil
 }
 
 // SetBookingstart sets the bookingstart field.
@@ -801,8 +801,8 @@ func (m *ConfirmationMutation) Type() string {
 // fields that were in/decremented, call AddedFields().
 func (m *ConfirmationMutation) Fields() []string {
 	fields := make([]string, 0, 4)
-	if m.adddate != nil {
-		fields = append(fields, confirmation.FieldAdddate)
+	if m.bookingdate != nil {
+		fields = append(fields, confirmation.FieldBookingdate)
 	}
 	if m.bookingstart != nil {
 		fields = append(fields, confirmation.FieldBookingstart)
@@ -821,8 +821,8 @@ func (m *ConfirmationMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *ConfirmationMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case confirmation.FieldAdddate:
-		return m.Adddate()
+	case confirmation.FieldBookingdate:
+		return m.Bookingdate()
 	case confirmation.FieldBookingstart:
 		return m.Bookingstart()
 	case confirmation.FieldBookingend:
@@ -838,8 +838,8 @@ func (m *ConfirmationMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *ConfirmationMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case confirmation.FieldAdddate:
-		return m.OldAdddate(ctx)
+	case confirmation.FieldBookingdate:
+		return m.OldBookingdate(ctx)
 	case confirmation.FieldBookingstart:
 		return m.OldBookingstart(ctx)
 	case confirmation.FieldBookingend:
@@ -855,12 +855,12 @@ func (m *ConfirmationMutation) OldField(ctx context.Context, name string) (ent.V
 // type mismatch the field type.
 func (m *ConfirmationMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case confirmation.FieldAdddate:
+	case confirmation.FieldBookingdate:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetAdddate(v)
+		m.SetBookingdate(v)
 		return nil
 	case confirmation.FieldBookingstart:
 		v, ok := value.(time.Time)
@@ -948,8 +948,8 @@ func (m *ConfirmationMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *ConfirmationMutation) ResetField(name string) error {
 	switch name {
-	case confirmation.FieldAdddate:
-		m.ResetAdddate()
+	case confirmation.FieldBookingdate:
+		m.ResetBookingdate()
 		return nil
 	case confirmation.FieldBookingstart:
 		m.ResetBookingstart()
@@ -1455,11 +1455,11 @@ type UserMutation struct {
 	op                       Op
 	typ                      string
 	id                       *int
-	name                     *string
 	email                    *string
 	password                 *string
+	name                     *string
 	birthday                 *time.Time
-	tel                      *string
+	telephone                *string
 	clearedFields            map[string]struct{}
 	_UserConfirmation        map[int]struct{}
 	removed_UserConfirmation map[int]struct{}
@@ -1546,43 +1546,6 @@ func (m *UserMutation) ID() (id int, exists bool) {
 	return *m.id, true
 }
 
-// SetName sets the name field.
-func (m *UserMutation) SetName(s string) {
-	m.name = &s
-}
-
-// Name returns the name value in the mutation.
-func (m *UserMutation) Name() (r string, exists bool) {
-	v := m.name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldName returns the old name value of the User.
-// If the User object wasn't provided to the builder, the object is fetched
-// from the database.
-// An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *UserMutation) OldName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldName: %w", err)
-	}
-	return oldValue.Name, nil
-}
-
-// ResetName reset all changes of the "name" field.
-func (m *UserMutation) ResetName() {
-	m.name = nil
-}
-
 // SetEmail sets the email field.
 func (m *UserMutation) SetEmail(s string) {
 	m.email = &s
@@ -1657,6 +1620,43 @@ func (m *UserMutation) ResetPassword() {
 	m.password = nil
 }
 
+// SetName sets the name field.
+func (m *UserMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the name value in the mutation.
+func (m *UserMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old name value of the User.
+// If the User object wasn't provided to the builder, the object is fetched
+// from the database.
+// An error is returned if the mutation operation is not UpdateOne, or database query fails.
+func (m *UserMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, fmt.Errorf("OldName is allowed only on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, fmt.Errorf("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName reset all changes of the "name" field.
+func (m *UserMutation) ResetName() {
+	m.name = nil
+}
+
 // SetBirthday sets the birthday field.
 func (m *UserMutation) SetBirthday(t time.Time) {
 	m.birthday = &t
@@ -1694,41 +1694,41 @@ func (m *UserMutation) ResetBirthday() {
 	m.birthday = nil
 }
 
-// SetTel sets the tel field.
-func (m *UserMutation) SetTel(s string) {
-	m.tel = &s
+// SetTelephone sets the telephone field.
+func (m *UserMutation) SetTelephone(s string) {
+	m.telephone = &s
 }
 
-// Tel returns the tel value in the mutation.
-func (m *UserMutation) Tel() (r string, exists bool) {
-	v := m.tel
+// Telephone returns the telephone value in the mutation.
+func (m *UserMutation) Telephone() (r string, exists bool) {
+	v := m.telephone
 	if v == nil {
 		return
 	}
 	return *v, true
 }
 
-// OldTel returns the old tel value of the User.
+// OldTelephone returns the old telephone value of the User.
 // If the User object wasn't provided to the builder, the object is fetched
 // from the database.
 // An error is returned if the mutation operation is not UpdateOne, or database query fails.
-func (m *UserMutation) OldTel(ctx context.Context) (v string, err error) {
+func (m *UserMutation) OldTelephone(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
-		return v, fmt.Errorf("OldTel is allowed only on UpdateOne operations")
+		return v, fmt.Errorf("OldTelephone is allowed only on UpdateOne operations")
 	}
 	if m.id == nil || m.oldValue == nil {
-		return v, fmt.Errorf("OldTel requires an ID field in the mutation")
+		return v, fmt.Errorf("OldTelephone requires an ID field in the mutation")
 	}
 	oldValue, err := m.oldValue(ctx)
 	if err != nil {
-		return v, fmt.Errorf("querying old value for OldTel: %w", err)
+		return v, fmt.Errorf("querying old value for OldTelephone: %w", err)
 	}
-	return oldValue.Tel, nil
+	return oldValue.Telephone, nil
 }
 
-// ResetTel reset all changes of the "tel" field.
-func (m *UserMutation) ResetTel() {
-	m.tel = nil
+// ResetTelephone reset all changes of the "telephone" field.
+func (m *UserMutation) ResetTelephone() {
+	m.telephone = nil
 }
 
 // AddUserConfirmationIDs adds the UserConfirmation edge to Confirmation by ids.
@@ -1788,20 +1788,20 @@ func (m *UserMutation) Type() string {
 // fields that were in/decremented, call AddedFields().
 func (m *UserMutation) Fields() []string {
 	fields := make([]string, 0, 5)
-	if m.name != nil {
-		fields = append(fields, user.FieldName)
-	}
 	if m.email != nil {
 		fields = append(fields, user.FieldEmail)
 	}
 	if m.password != nil {
 		fields = append(fields, user.FieldPassword)
 	}
+	if m.name != nil {
+		fields = append(fields, user.FieldName)
+	}
 	if m.birthday != nil {
 		fields = append(fields, user.FieldBirthday)
 	}
-	if m.tel != nil {
-		fields = append(fields, user.FieldTel)
+	if m.telephone != nil {
+		fields = append(fields, user.FieldTelephone)
 	}
 	return fields
 }
@@ -1811,16 +1811,16 @@ func (m *UserMutation) Fields() []string {
 // not set, or was not define in the schema.
 func (m *UserMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case user.FieldName:
-		return m.Name()
 	case user.FieldEmail:
 		return m.Email()
 	case user.FieldPassword:
 		return m.Password()
+	case user.FieldName:
+		return m.Name()
 	case user.FieldBirthday:
 		return m.Birthday()
-	case user.FieldTel:
-		return m.Tel()
+	case user.FieldTelephone:
+		return m.Telephone()
 	}
 	return nil, false
 }
@@ -1830,16 +1830,16 @@ func (m *UserMutation) Field(name string) (ent.Value, bool) {
 // or the query to the database was failed.
 func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case user.FieldName:
-		return m.OldName(ctx)
 	case user.FieldEmail:
 		return m.OldEmail(ctx)
 	case user.FieldPassword:
 		return m.OldPassword(ctx)
+	case user.FieldName:
+		return m.OldName(ctx)
 	case user.FieldBirthday:
 		return m.OldBirthday(ctx)
-	case user.FieldTel:
-		return m.OldTel(ctx)
+	case user.FieldTelephone:
+		return m.OldTelephone(ctx)
 	}
 	return nil, fmt.Errorf("unknown User field %s", name)
 }
@@ -1849,13 +1849,6 @@ func (m *UserMutation) OldField(ctx context.Context, name string) (ent.Value, er
 // type mismatch the field type.
 func (m *UserMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case user.FieldName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetName(v)
-		return nil
 	case user.FieldEmail:
 		v, ok := value.(string)
 		if !ok {
@@ -1870,6 +1863,13 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetPassword(v)
 		return nil
+	case user.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
 	case user.FieldBirthday:
 		v, ok := value.(time.Time)
 		if !ok {
@@ -1877,12 +1877,12 @@ func (m *UserMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetBirthday(v)
 		return nil
-	case user.FieldTel:
+	case user.FieldTelephone:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
-		m.SetTel(v)
+		m.SetTelephone(v)
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)
@@ -1934,20 +1934,20 @@ func (m *UserMutation) ClearField(name string) error {
 // defined in the schema.
 func (m *UserMutation) ResetField(name string) error {
 	switch name {
-	case user.FieldName:
-		m.ResetName()
-		return nil
 	case user.FieldEmail:
 		m.ResetEmail()
 		return nil
 	case user.FieldPassword:
 		m.ResetPassword()
 		return nil
+	case user.FieldName:
+		m.ResetName()
+		return nil
 	case user.FieldBirthday:
 		m.ResetBirthday()
 		return nil
-	case user.FieldTel:
-		m.ResetTel()
+	case user.FieldTelephone:
+		m.ResetTelephone()
 		return nil
 	}
 	return fmt.Errorf("unknown User field %s", name)

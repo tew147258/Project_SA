@@ -383,7 +383,7 @@ export class DefaultApi extends runtime.BaseAPI {
      * get confirmation by ID
      * Get a confirmation entity by ID
      */
-    async getConfirmationRaw(requestParameters: GetConfirmationRequest): Promise<runtime.ApiResponse<EntConfirmation>> {
+    async getConfirmationRaw(requestParameters: GetConfirmationRequest): Promise<runtime.ApiResponse<Array<EntConfirmation>>> {
         if (requestParameters.id === null || requestParameters.id === undefined) {
             throw new runtime.RequiredError('id','Required parameter requestParameters.id was null or undefined when calling getConfirmation.');
         }
@@ -399,14 +399,14 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => EntConfirmationFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(EntConfirmationFromJSON));
     }
 
     /**
      * get confirmation by ID
      * Get a confirmation entity by ID
      */
-    async getConfirmation(requestParameters: GetConfirmationRequest): Promise<EntConfirmation> {
+    async getConfirmation(requestParameters: GetConfirmationRequest): Promise<Array<EntConfirmation>> {
         const response = await this.getConfirmationRaw(requestParameters);
         return await response.value();
     }

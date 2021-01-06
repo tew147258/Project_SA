@@ -20,11 +20,11 @@ type Users struct {
 }
 
 type User struct {
-	Email    string
-	Password string
-	Name     string
-	Birthday string
-	Tel      string
+	Email     string
+	Password  string
+	Name      string
+	Birthday  string
+	Telephone string
 }
 
 type Stadiums struct {
@@ -117,13 +117,14 @@ func main() {
 			SetPassword(u.Password).
 			SetName(u.Name).
 			SetBirthday(time).
-			SetTel(u.Tel).
+			SetTelephone(u.Telephone).
 			Save(context.Background())
 	}
 
 	//Set Stadium Data
 	stadiums := Stadiums{
 		Stadium: []Stadium{
+			Stadium{"--เลือกสนาม--"},
 			Stadium{"สนามบาส"},
 			Stadium{"สนามวอลเลย์บอล"},
 			Stadium{"สนามฟุตบอล"},

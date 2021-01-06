@@ -7,8 +7,8 @@ const (
 	Label = "confirmation"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldAdddate holds the string denoting the adddate field in the database.
-	FieldAdddate = "adddate"
+	// FieldBookingdate holds the string denoting the bookingdate field in the database.
+	FieldBookingdate = "bookingdate"
 	// FieldBookingstart holds the string denoting the bookingstart field in the database.
 	FieldBookingstart = "bookingstart"
 	// FieldBookingend holds the string denoting the bookingend field in the database.
@@ -51,7 +51,7 @@ const (
 // Columns holds all SQL columns for confirmation fields.
 var Columns = []string{
 	FieldID,
-	FieldAdddate,
+	FieldBookingdate,
 	FieldBookingstart,
 	FieldBookingend,
 	FieldHourstime,

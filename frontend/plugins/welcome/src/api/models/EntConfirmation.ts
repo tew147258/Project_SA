@@ -27,11 +27,11 @@ import {
  */
 export interface EntConfirmation {
     /**
-     * Adddate holds the value of the "adddate" field.
+     * Bookingdate holds the value of the "bookingdate" field.
      * @type {string}
      * @memberof EntConfirmation
      */
-    adddate?: string;
+    bookingdate?: string;
     /**
      * Bookingend holds the value of the "bookingend" field.
      * @type {string}
@@ -74,7 +74,7 @@ export function EntConfirmationFromJSONTyped(json: any, ignoreDiscriminator: boo
     }
     return {
         
-        'adddate': !exists(json, 'adddate') ? undefined : json['adddate'],
+        'bookingdate': !exists(json, 'bookingdate') ? undefined : json['bookingdate'],
         'bookingend': !exists(json, 'bookingend') ? undefined : json['bookingend'],
         'bookingstart': !exists(json, 'bookingstart') ? undefined : json['bookingstart'],
         'edges': !exists(json, 'edges') ? undefined : EntConfirmationEdgesFromJSON(json['edges']),
@@ -92,7 +92,7 @@ export function EntConfirmationToJSON(value?: EntConfirmation | null): any {
     }
     return {
         
-        'adddate': value.adddate,
+        'bookingdate': value.bookingdate,
         'bookingend': value.bookingend,
         'bookingstart': value.bookingstart,
         'edges': EntConfirmationEdgesToJSON(value.edges),

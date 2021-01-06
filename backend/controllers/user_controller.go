@@ -41,7 +41,7 @@ func (ctl *UserController) CreateUser(c *gin.Context) {
 		SetEmail(obj.Email).
 		SetPassword(obj.Password).
 		SetBirthday(obj.Birthday).
-		SetTel(obj.Tel).
+		SetTelephone(obj.Telephone).
 		Save(context.Background())
 
 	if err != nil {
@@ -203,7 +203,7 @@ func (ctl *UserController) UpdateUser(c *gin.Context) {
 		SetName(obj.Name).
 		SetPassword(obj.Password).
 		SetBirthday(obj.Birthday).
-		SetTel(obj.Tel).
+		SetTelephone(obj.Telephone).
 		Save(context.Background())
 	if err != nil {
 		c.JSON(400, gin.H{

@@ -2,7 +2,7 @@ basePath: /api/v1
 definitions:
   controllers.Confirmation:
     properties:
-      adddate:
+      bookingdate:
         type: string
       bookingend:
         type: string
@@ -42,8 +42,8 @@ definitions:
     type: object
   ent.Confirmation:
     properties:
-      adddate:
-        description: Adddate holds the value of the "adddate" field.
+      bookingdate:
+        description: Bookingdate holds the value of the "bookingdate" field.
         type: string
       bookingend:
         description: Bookingend holds the value of the "bookingend" field.
@@ -125,8 +125,8 @@ definitions:
       password:
         description: Password holds the value of the "password" field.
         type: string
-      tel:
-        description: Tel holds the value of the "tel" field.
+      telephone:
+        description: Telephone holds the value of the "telephone" field.
         type: string
     type: object
   ent.UserEdges:

@@ -19,8 +19,8 @@ type Confirmation struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
-	// Adddate holds the value of the "adddate" field.
-	Adddate time.Time `json:"adddate,omitempty"`
+	// Bookingdate holds the value of the "bookingdate" field.
+	Bookingdate time.Time `json:"bookingdate,omitempty"`
 	// Bookingstart holds the value of the "bookingstart" field.
 	Bookingstart time.Time `json:"bookingstart,omitempty"`
 	// Bookingend holds the value of the "bookingend" field.
@@ -94,7 +94,7 @@ func (e ConfirmationEdges) ConfirmationBorrowOrErr() (*Borrow, error) {
 func (*Confirmation) scanValues() []interface{} {
 	return []interface{}{
 		&sql.NullInt64{}, // id
-		&sql.NullTime{},  // adddate
+		&sql.NullTime{},  // bookingdate
 		&sql.NullTime{},  // bookingstart
 		&sql.NullTime{},  // bookingend
 		&sql.NullInt64{}, // hourstime
@@ -123,9 +123,9 @@ func (c *Confirmation) assignValues(values ...interface{}) error {
 	c.ID = int(value.Int64)
 	values = values[1:]
 	if value, ok := values[0].(*sql.NullTime); !ok {
-		return fmt.Errorf("unexpected type %T for field adddate", values[0])
+		return fmt.Errorf("unexpected type %T for field bookingdate", values[0])
 	} else if value.Valid {
-		c.Adddate = value.Time
+		c.Bookingdate = value.Time
 	}
 	if value, ok := values[1].(*sql.NullTime); !ok {
 		return fmt.Errorf("unexpected type %T for field bookingstart", values[1])
@@ -204,8 +204,8 @@ func (c *Confirmation) String() string {
 	var builder strings.Builder
 	builder.WriteString("Confirmation(")
 	builder.WriteString(fmt.Sprintf("id=%v", c.ID))
-	builder.WriteString(", adddate=")
-	builder.WriteString(c.Adddate.Format(time.ANSIC))
+	builder.WriteString(", bookingdate=")
+	builder.WriteString(c.Bookingdate.Format(time.ANSIC))
 	builder.WriteString(", bookingstart=")
 	builder.WriteString(c.Bookingstart.Format(time.ANSIC))
 	builder.WriteString(", bookingend=")

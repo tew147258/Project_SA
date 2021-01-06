@@ -7,16 +7,16 @@ const (
 	Label = "user"
 	// FieldID holds the string denoting the id field in the database.
 	FieldID = "id"
-	// FieldName holds the string denoting the name field in the database.
-	FieldName = "name"
 	// FieldEmail holds the string denoting the email field in the database.
 	FieldEmail = "email"
 	// FieldPassword holds the string denoting the password field in the database.
 	FieldPassword = "password"
+	// FieldName holds the string denoting the name field in the database.
+	FieldName = "name"
 	// FieldBirthday holds the string denoting the birthday field in the database.
 	FieldBirthday = "birthday"
-	// FieldTel holds the string denoting the tel field in the database.
-	FieldTel = "tel"
+	// FieldTelephone holds the string denoting the telephone field in the database.
+	FieldTelephone = "telephone"
 
 	// EdgeUserConfirmation holds the string denoting the userconfirmation edge name in mutations.
 	EdgeUserConfirmation = "UserConfirmation"
@@ -35,9 +35,9 @@ const (
 // Columns holds all SQL columns for user fields.
 var Columns = []string{
 	FieldID,
-	FieldName,
 	FieldEmail,
 	FieldPassword,
+	FieldName,
 	FieldBirthday,
-	FieldTel,
+	FieldTelephone,
 }

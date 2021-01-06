@@ -23,7 +23,7 @@ var (
 	// ConfirmationsColumns holds the columns for the "confirmations" table.
 	ConfirmationsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "adddate", Type: field.TypeTime},
+		{Name: "bookingdate", Type: field.TypeTime},
 		{Name: "bookingstart", Type: field.TypeTime},
 		{Name: "bookingend", Type: field.TypeTime},
 		{Name: "hourstime", Type: field.TypeInt},
@@ -75,11 +75,11 @@ var (
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
-		{Name: "name", Type: field.TypeString},
 		{Name: "email", Type: field.TypeString},
 		{Name: "password", Type: field.TypeString},
+		{Name: "name", Type: field.TypeString},
 		{Name: "birthday", Type: field.TypeTime},
-		{Name: "tel", Type: field.TypeString},
+		{Name: "telephone", Type: field.TypeString},
 	}
 	// UsersTable holds the schema information for the "users" table.
 	UsersTable = &schema.Table{

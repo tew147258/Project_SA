@@ -23,9 +23,9 @@ type ConfirmationCreate struct {
 	hooks    []Hook
 }
 
-// SetAdddate sets the adddate field.
-func (cc *ConfirmationCreate) SetAdddate(t time.Time) *ConfirmationCreate {
-	cc.mutation.SetAdddate(t)
+// SetBookingdate sets the bookingdate field.
+func (cc *ConfirmationCreate) SetBookingdate(t time.Time) *ConfirmationCreate {
+	cc.mutation.SetBookingdate(t)
 	return cc
 }
 
@@ -111,8 +111,8 @@ func (cc *ConfirmationCreate) Mutation() *ConfirmationMutation {
 
 // Save creates the Confirmation in the database.
 func (cc *ConfirmationCreate) Save(ctx context.Context) (*Confirmation, error) {
-	if _, ok := cc.mutation.Adddate(); !ok {
-		return nil, &ValidationError{Name: "adddate", err: errors.New("ent: missing required field \"adddate\"")}
+	if _, ok := cc.mutation.Bookingdate(); !ok {
+		return nil, &ValidationError{Name: "bookingdate", err: errors.New("ent: missing required field \"bookingdate\"")}
 	}
 	if _, ok := cc.mutation.Bookingstart(); !ok {
 		return nil, &ValidationError{Name: "bookingstart", err: errors.New("ent: missing required field \"bookingstart\"")}
@@ -183,13 +183,13 @@ func (cc *ConfirmationCreate) createSpec() (*Confirmation, *sqlgraph.CreateSpec)
 			},
 		}
 	)
-	if value, ok := cc.mutation.Adddate(); ok {
+	if value, ok := cc.mutation.Bookingdate(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: confirmation.FieldAdddate,
+			Column: confirmation.FieldBookingdate,
 		})
-		c.Adddate = value
+		c.Bookingdate = value
 	}
 	if value, ok := cc.mutation.Bookingstart(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{

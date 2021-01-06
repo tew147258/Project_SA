@@ -21,12 +21,6 @@ type UserCreate struct {
 	hooks    []Hook
 }
 
-// SetName sets the name field.
-func (uc *UserCreate) SetName(s string) *UserCreate {
-	uc.mutation.SetName(s)
-	return uc
-}
-
 // SetEmail sets the email field.
 func (uc *UserCreate) SetEmail(s string) *UserCreate {
 	uc.mutation.SetEmail(s)
@@ -39,15 +33,21 @@ func (uc *UserCreate) SetPassword(s string) *UserCreate {
 	return uc
 }
 
+// SetName sets the name field.
+func (uc *UserCreate) SetName(s string) *UserCreate {
+	uc.mutation.SetName(s)
+	return uc
+}
+
 // SetBirthday sets the birthday field.
 func (uc *UserCreate) SetBirthday(t time.Time) *UserCreate {
 	uc.mutation.SetBirthday(t)
 	return uc
 }
 
-// SetTel sets the tel field.
-func (uc *UserCreate) SetTel(s string) *UserCreate {
-	uc.mutation.SetTel(s)
+// SetTelephone sets the telephone field.
+func (uc *UserCreate) SetTelephone(s string) *UserCreate {
+	uc.mutation.SetTelephone(s)
 	return uc
 }
 
@@ -73,20 +73,20 @@ func (uc *UserCreate) Mutation() *UserMutation {
 
 // Save creates the User in the database.
 func (uc *UserCreate) Save(ctx context.Context) (*User, error) {
-	if _, ok := uc.mutation.Name(); !ok {
-		return nil, &ValidationError{Name: "name", err: errors.New("ent: missing required field \"name\"")}
-	}
 	if _, ok := uc.mutation.Email(); !ok {
 		return nil, &ValidationError{Name: "email", err: errors.New("ent: missing required field \"email\"")}
 	}
 	if _, ok := uc.mutation.Password(); !ok {
 		return nil, &ValidationError{Name: "password", err: errors.New("ent: missing required field \"password\"")}
 	}
+	if _, ok := uc.mutation.Name(); !ok {
+		return nil, &ValidationError{Name: "name", err: errors.New("ent: missing required field \"name\"")}
+	}
 	if _, ok := uc.mutation.Birthday(); !ok {
 		return nil, &ValidationError{Name: "birthday", err: errors.New("ent: missing required field \"birthday\"")}
 	}
-	if _, ok := uc.mutation.Tel(); !ok {
-		return nil, &ValidationError{Name: "tel", err: errors.New("ent: missing required field \"tel\"")}
+	if _, ok := uc.mutation.Telephone(); !ok {
+		return nil, &ValidationError{Name: "telephone", err: errors.New("ent: missing required field \"telephone\"")}
 	}
 	var (
 		err  error
@@ -148,14 +148,6 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
-	if value, ok := uc.mutation.Name(); ok {
-		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: user.FieldName,
-		})
-		u.Name = value
-	}
 	if value, ok := uc.mutation.Email(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -172,6 +164,14 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		})
 		u.Password = value
 	}
+	if value, ok := uc.mutation.Name(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldName,
+		})
+		u.Name = value
+	}
 	if value, ok := uc.mutation.Birthday(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
@@ -180,13 +180,13 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		})
 		u.Birthday = value
 	}
-	if value, ok := uc.mutation.Tel(); ok {
+	if value, ok := uc.mutation.Telephone(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: user.FieldTel,
+			Column: user.FieldTelephone,
 		})
-		u.Tel = value
+		u.Telephone = value
 	}
 	if nodes := uc.mutation.UserConfirmationIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

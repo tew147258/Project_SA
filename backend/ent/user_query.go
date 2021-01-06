@@ -270,12 +270,12 @@ func (uq *UserQuery) WithUserConfirmation(opts ...func(*ConfirmationQuery)) *Use
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Email string `json:"email,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.User.Query().
-//		GroupBy(user.FieldName).
+//		GroupBy(user.FieldEmail).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -296,11 +296,11 @@ func (uq *UserQuery) GroupBy(field string, fields ...string) *UserGroupBy {
 // Example:
 //
 //	var v []struct {
-//		Name string `json:"name,omitempty"`
+//		Email string `json:"email,omitempty"`
 //	}
 //
 //	client.User.Query().
-//		Select(user.FieldName).
+//		Select(user.FieldEmail).
 //		Scan(ctx, &v)
 //
 func (uq *UserQuery) Select(field string, fields ...string) *UserSelect {
