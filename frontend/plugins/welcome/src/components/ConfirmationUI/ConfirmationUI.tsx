@@ -33,7 +33,7 @@ const HeaderCustom = {
 // css style 
 const useStyles = makeStyles(theme => ({
   table: {
-    minWidth: 650,
+    minWidth: 700,
   },
   root: {
     flexGrow: 20,
