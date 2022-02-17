@@ -93,10 +93,10 @@ func IDLTE(id int) predicate.Confirmation {
 	})
 }
 
-// Adddate applies equality check predicate on the "adddate" field. It's identical to AdddateEQ.
-func Adddate(v time.Time) predicate.Confirmation {
+// Bookingdate applies equality check predicate on the "bookingdate" field. It's identical to BookingdateEQ.
+func Bookingdate(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAdddate), v))
+		s.Where(sql.EQ(s.C(FieldBookingdate), v))
 	})
 }
 
@@ -121,22 +121,22 @@ func Hourstime(v int) predicate.Confirmation {
 	})
 }
 
-// AdddateEQ applies the EQ predicate on the "adddate" field.
-func AdddateEQ(v time.Time) predicate.Confirmation {
+// BookingdateEQ applies the EQ predicate on the "bookingdate" field.
+func BookingdateEQ(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.EQ(s.C(FieldAdddate), v))
+		s.Where(sql.EQ(s.C(FieldBookingdate), v))
 	})
 }
 
-// AdddateNEQ applies the NEQ predicate on the "adddate" field.
-func AdddateNEQ(v time.Time) predicate.Confirmation {
+// BookingdateNEQ applies the NEQ predicate on the "bookingdate" field.
+func BookingdateNEQ(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.NEQ(s.C(FieldAdddate), v))
+		s.Where(sql.NEQ(s.C(FieldBookingdate), v))
 	})
 }
 
-// AdddateIn applies the In predicate on the "adddate" field.
-func AdddateIn(vs ...time.Time) predicate.Confirmation {
+// BookingdateIn applies the In predicate on the "bookingdate" field.
+func BookingdateIn(vs ...time.Time) predicate.Confirmation {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -148,12 +148,12 @@ func AdddateIn(vs ...time.Time) predicate.Confirmation {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.In(s.C(FieldAdddate), v...))
+		s.Where(sql.In(s.C(FieldBookingdate), v...))
 	})
 }
 
-// AdddateNotIn applies the NotIn predicate on the "adddate" field.
-func AdddateNotIn(vs ...time.Time) predicate.Confirmation {
+// BookingdateNotIn applies the NotIn predicate on the "bookingdate" field.
+func BookingdateNotIn(vs ...time.Time) predicate.Confirmation {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -165,35 +165,35 @@ func AdddateNotIn(vs ...time.Time) predicate.Confirmation {
 			s.Where(sql.False())
 			return
 		}
-		s.Where(sql.NotIn(s.C(FieldAdddate), v...))
+		s.Where(sql.NotIn(s.C(FieldBookingdate), v...))
 	})
 }
 
-// AdddateGT applies the GT predicate on the "adddate" field.
-func AdddateGT(v time.Time) predicate.Confirmation {
+// BookingdateGT applies the GT predicate on the "bookingdate" field.
+func BookingdateGT(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.GT(s.C(FieldAdddate), v))
+		s.Where(sql.GT(s.C(FieldBookingdate), v))
 	})
 }
 
-// AdddateGTE applies the GTE predicate on the "adddate" field.
-func AdddateGTE(v time.Time) predicate.Confirmation {
+// BookingdateGTE applies the GTE predicate on the "bookingdate" field.
+func BookingdateGTE(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.GTE(s.C(FieldAdddate), v))
+		s.Where(sql.GTE(s.C(FieldBookingdate), v))
 	})
 }
 
-// AdddateLT applies the LT predicate on the "adddate" field.
-func AdddateLT(v time.Time) predicate.Confirmation {
+// BookingdateLT applies the LT predicate on the "bookingdate" field.
+func BookingdateLT(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.LT(s.C(FieldAdddate), v))
+		s.Where(sql.LT(s.C(FieldBookingdate), v))
 	})
 }
 
-// AdddateLTE applies the LTE predicate on the "adddate" field.
-func AdddateLTE(v time.Time) predicate.Confirmation {
+// BookingdateLTE applies the LTE predicate on the "bookingdate" field.
+func BookingdateLTE(v time.Time) predicate.Confirmation {
 	return predicate.Confirmation(func(s *sql.Selector) {
-		s.Where(sql.LTE(s.C(FieldAdddate), v))
+		s.Where(sql.LTE(s.C(FieldBookingdate), v))
 	})
 }
 

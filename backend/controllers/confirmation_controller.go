@@ -9,7 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tew147258/app/ent"
 	"github.com/tew147258/app/ent/borrow"
-	"github.com/tew147258/app/ent/confirmation"
 	"github.com/tew147258/app/ent/stadium"
 	"github.com/tew147258/app/ent/user"
 )
@@ -23,7 +22,7 @@ type Confirmation struct {
 	User         int
 	Stadium      int
 	Borrow       int
-	Adddate      string
+	Bookingdate  string
 	Bookingstart string
 	Bookingend   string
 	Hourstime    string
@@ -93,7 +92,9 @@ func (ctl *ConfirmationController) CreateConfirmation(c *gin.Context) {
 	time4 := time2.After(time3)
 	time5 := time2.Before(time1)
 	timehours := time3.Sub(time2)
-	timeH := float32(timehours) / 3600000000000
+	timeH := int(timehours) / 60000000000
+	timeZero := timeH % 60
+	timeHH := timeH / 60
 
 	if time4 {
 		c.JSON(400, gin.H{
@@ -107,31 +108,38 @@ func (ctl *ConfirmationController) CreateConfirmation(c *gin.Context) {
 			})
 			return
 		} else {
-			if timeH == 1 || timeH == 2 || timeH == 3 || timeH == 4 || timeH == 5 || timeH == 6 || timeH == 7 || timeH == 8 {
-				co, err := ctl.client.Confirmation.
-					Create().
-					SetConfirmationUser(u).
-					SetConfirmationStadium(s).
-					SetConfirmationBorrow(b).
-					SetAdddate(time1).
-					SetBookingstart(time2).
-					SetBookingend(time3).
-					SetHourstime(int(timeH)).
-					Save(context.Background())
+			if timeZero != 0 {
+				c.JSON(400, gin.H{
+					"error": "saving failed",
+				})
+				return
+			} else {
+				if timeHH%9 != 0 && timeHH < 10 && timeHH > 0 && obj.Stadium != 1 {
+					co, err := ctl.client.Confirmation.
+						Create().
+						SetConfirmationUser(u).
+						SetConfirmationStadium(s).
+						SetConfirmationBorrow(b).
+						SetBookingdate(time1).
+						SetBookingstart(time2).
+						SetBookingend(time3).
+						SetHourstime(timeHH).
+						Save(context.Background())
 
-				if err != nil {
+					if err != nil {
+						c.JSON(400, gin.H{
+							"error": "saving failed",
+						})
+						return
+					}
+
+					c.JSON(200, co)
+				} else {
 					c.JSON(400, gin.H{
 						"error": "saving failed",
 					})
 					return
 				}
-
-				c.JSON(200, co)
-			} else {
-				c.JSON(400, gin.H{
-					"error": "saving failed",
-				})
-				return
 			}
 		}
 	}
@@ -157,19 +165,48 @@ func (ctl *ConfirmationController) GetConfirmation(c *gin.Context) {
 		})
 		return
 	}
+	if id == 1 {
+		confirmations, err := ctl.client.Confirmation.
+			Query().
+			WithConfirmationUser().
+			WithConfirmationStadium().
+			WithConfirmationBorrow().
+			All(context.Background())
+		if err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
 
-	co, err := ctl.client.Confirmation.
-		Query().
-		Where(confirmation.IDEQ(int(id))).
-		Only(context.Background())
-	if err != nil {
-		c.JSON(404, gin.H{
-			"error": err.Error(),
-		})
-		return
+		c.JSON(200, confirmations)
 	}
 
-	c.JSON(200, co)
+	if id != 1 {
+		st, err := ctl.client.Stadium.
+			Query().
+			Where(stadium.IDEQ(int(id))).
+			Only(context.Background())
+		if err != nil {
+			c.JSON(404, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		co, err := ctl.client.Stadium.
+			QueryStadiumConfirmation(st).
+			WithConfirmationUser().
+			WithConfirmationStadium().
+			WithConfirmationBorrow().
+			All(context.Background())
+		if err != nil {
+			c.JSON(404, gin.H{
+				"error": err.Error(),
+			})
+			return
+		}
+
+		c.JSON(200, co)
+	}
 }
 
 // ListConfirmation handles request to get a list of confirmation entities

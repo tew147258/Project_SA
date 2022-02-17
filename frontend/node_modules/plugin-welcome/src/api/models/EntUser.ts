@@ -63,11 +63,11 @@ export interface EntUser {
      */
     password?: string;
     /**
-     * Tel holds the value of the "tel" field.
+     * Telephone holds the value of the "telephone" field.
      * @type {string}
      * @memberof EntUser
      */
-    tel?: string;
+    telephone?: string;
 }
 
 export function EntUserFromJSON(json: any): EntUser {
@@ -86,7 +86,7 @@ export function EntUserFromJSONTyped(json: any, ignoreDiscriminator: boolean): E
         'id': !exists(json, 'id') ? undefined : json['id'],
         'name': !exists(json, 'name') ? undefined : json['name'],
         'password': !exists(json, 'password') ? undefined : json['password'],
-        'tel': !exists(json, 'tel') ? undefined : json['tel'],
+        'telephone': !exists(json, 'telephone') ? undefined : json['telephone'],
     };
 }
 
@@ -105,7 +105,7 @@ export function EntUserToJSON(value?: EntUser | null): any {
         'id': value.id,
         'name': value.name,
         'password': value.password,
-        'tel': value.tel,
+        'telephone': value.telephone,
     };
 }
 

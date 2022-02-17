@@ -29,12 +29,6 @@ func (uu *UserUpdate) Where(ps ...predicate.User) *UserUpdate {
 	return uu
 }
 
-// SetName sets the name field.
-func (uu *UserUpdate) SetName(s string) *UserUpdate {
-	uu.mutation.SetName(s)
-	return uu
-}
-
 // SetEmail sets the email field.
 func (uu *UserUpdate) SetEmail(s string) *UserUpdate {
 	uu.mutation.SetEmail(s)
@@ -47,15 +41,21 @@ func (uu *UserUpdate) SetPassword(s string) *UserUpdate {
 	return uu
 }
 
+// SetName sets the name field.
+func (uu *UserUpdate) SetName(s string) *UserUpdate {
+	uu.mutation.SetName(s)
+	return uu
+}
+
 // SetBirthday sets the birthday field.
 func (uu *UserUpdate) SetBirthday(t time.Time) *UserUpdate {
 	uu.mutation.SetBirthday(t)
 	return uu
 }
 
-// SetTel sets the tel field.
-func (uu *UserUpdate) SetTel(s string) *UserUpdate {
-	uu.mutation.SetTel(s)
+// SetTelephone sets the telephone field.
+func (uu *UserUpdate) SetTelephone(s string) *UserUpdate {
+	uu.mutation.SetTelephone(s)
 	return uu
 }
 
@@ -164,13 +164,6 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := uu.mutation.Name(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: user.FieldName,
-		})
-	}
 	if value, ok := uu.mutation.Email(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -185,6 +178,13 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: user.FieldPassword,
 		})
 	}
+	if value, ok := uu.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldName,
+		})
+	}
 	if value, ok := uu.mutation.Birthday(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
@@ -192,11 +192,11 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: user.FieldBirthday,
 		})
 	}
-	if value, ok := uu.mutation.Tel(); ok {
+	if value, ok := uu.mutation.Telephone(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: user.FieldTel,
+			Column: user.FieldTelephone,
 		})
 	}
 	if nodes := uu.mutation.RemovedUserConfirmationIDs(); len(nodes) > 0 {
@@ -255,12 +255,6 @@ type UserUpdateOne struct {
 	mutation *UserMutation
 }
 
-// SetName sets the name field.
-func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
-	uuo.mutation.SetName(s)
-	return uuo
-}
-
 // SetEmail sets the email field.
 func (uuo *UserUpdateOne) SetEmail(s string) *UserUpdateOne {
 	uuo.mutation.SetEmail(s)
@@ -273,15 +267,21 @@ func (uuo *UserUpdateOne) SetPassword(s string) *UserUpdateOne {
 	return uuo
 }
 
+// SetName sets the name field.
+func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
+	uuo.mutation.SetName(s)
+	return uuo
+}
+
 // SetBirthday sets the birthday field.
 func (uuo *UserUpdateOne) SetBirthday(t time.Time) *UserUpdateOne {
 	uuo.mutation.SetBirthday(t)
 	return uuo
 }
 
-// SetTel sets the tel field.
-func (uuo *UserUpdateOne) SetTel(s string) *UserUpdateOne {
-	uuo.mutation.SetTel(s)
+// SetTelephone sets the telephone field.
+func (uuo *UserUpdateOne) SetTelephone(s string) *UserUpdateOne {
+	uuo.mutation.SetTelephone(s)
 	return uuo
 }
 
@@ -388,13 +388,6 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (u *User, err error) {
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing User.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := uuo.mutation.Name(); ok {
-		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeString,
-			Value:  value,
-			Column: user.FieldName,
-		})
-	}
 	if value, ok := uuo.mutation.Email(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
@@ -409,6 +402,13 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (u *User, err error) {
 			Column: user.FieldPassword,
 		})
 	}
+	if value, ok := uuo.mutation.Name(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldName,
+		})
+	}
 	if value, ok := uuo.mutation.Birthday(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
@@ -416,11 +416,11 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (u *User, err error) {
 			Column: user.FieldBirthday,
 		})
 	}
-	if value, ok := uuo.mutation.Tel(); ok {
+	if value, ok := uuo.mutation.Telephone(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeString,
 			Value:  value,
-			Column: user.FieldTel,
+			Column: user.FieldTelephone,
 		})
 	}
 	if nodes := uuo.mutation.RemovedUserConfirmationIDs(); len(nodes) > 0 {

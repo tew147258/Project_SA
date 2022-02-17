@@ -1,5 +1,5 @@
 import React, { FC, useEffect,useState } from 'react';
-import {Link as RouterLink} from 'react-router-dom'
+import {Link as RouterLink} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Content, Header, Page, pageTheme } from '@backstage/core';
 import {
@@ -10,14 +10,20 @@ import {
   InputLabel,
   MenuItem,
   TextField,
-  Avatar,
-} from '@material-ui/core';
-import ComponentsTable from '../Table/Tables'
-import Button from '@material-ui/core/Button';
-import { DefaultApi } from '../../api/apis';
+}from '@material-ui/core';
 import { EntBorrow } from '../../api/models/EntBorrow';
 import { EntStadium } from '../../api/models/EntStadium';
-import { EntConfirmation } from '../../api/models/EntConfirmation';
+import { DefaultApi } from '../../api/apis';
+import { EntConfirmation} from '../../api/models/EntConfirmation';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import moment from 'moment'
 
 
 const HeaderCustom = {
@@ -26,6 +32,9 @@ const HeaderCustom = {
 
 // css style 
 const useStyles = makeStyles(theme => ({
+  table: {
+    minWidth: 700,
+  },
   root: {
     flexGrow: 20,
   },
@@ -46,28 +55,23 @@ const useStyles = makeStyles(theme => ({
   textField: {
     width: 300,
   },
-  table: {  
-    minWidth: 650,
-  },
 }));
 
 const Confirmation: FC<{}> = () =>{
   const UI = { giveName : 'Confirmation'}
-  const User = { giveName : 'Woraphon Chutsungnoen'}
   const classes = useStyles();
   const api = new DefaultApi();
   const [loading, setLoading] = useState(true);
-  
-  const [Confirmations, setConfirmations] = useState<EntConfirmation[]>([]);
+  const [loadingcon, setloadingcon] = useState(true);
   const [bookingstart, SetBookingstart] = useState(String);
   const [bookingend, SetBookingend] = useState(String);
 
   const [stadiums, setStadiums] = useState<EntStadium[]>([]);
   const [borrows, setBorrows] = useState<EntBorrow[]>([]);
 
-  const [stadiumid, setStadiumID] = useState(Number);
+  const [stadiumid, setStadiumID] = useState(1);
   const [borrowid, setBorrowID] = useState(Number);
-
+let idstadium = Number(stadiumid)
   useEffect(() =>{
     const getStadiums = async () =>{
       const res =  await api.listStadium({limit:10,offset:0});
@@ -81,15 +85,21 @@ const Confirmation: FC<{}> = () =>{
       setBorrows(res);
     }
     getBorrows();
+    
+  },[loading]);
+
+  const [Confirmations, setConfirmations] = useState<EntConfirmation[]>([]);
+  useEffect(() =>{
     const getConfirmations = async () => {
-      const res = await api.listConfirmation({ limit: 10, offset: 0 });
-      setLoading(false);
+      const res = await api.getConfirmation({id : idstadium});
+      setloadingcon(false)
       setConfirmations(res);
       console.log(res);
     };
+    
     getConfirmations();
-  },[loading]);
-
+  },[loadingcon]);
+   
   const Bookingstarthandlechange = (event : any) =>{
     SetBookingstart(event.target.value as string);
   }
@@ -100,11 +110,17 @@ const Confirmation: FC<{}> = () =>{
 
   const Stadiumhandlechange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setStadiumID(event.target.value as number);
+    setloadingcon(true)
   }
   
   const Borrowhandlechange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setBorrowID(event.target.value as number);
   }
+  const deleteConfirmation = async (id: number) => {
+    const res = await api.deleteConfirmation({ id: id });
+    setLoading(true);
+    window.location.reload(false);
+  };
 
   const CreateConfirmation = async ()=>{
     const confirmation = {
@@ -125,11 +141,48 @@ const Confirmation: FC<{}> = () =>{
   return (
     <Page theme={pageTheme.home}>
       <Header style={HeaderCustom} title={`${UI.giveName}`}>
-        <Avatar/>
-        <div style={{ marginLeft: 10 }}>{User.giveName}</div>
       </Header>
       <Content>
-        <ComponentsTable></ComponentsTable>
+      <TableContainer component={Paper}>
+      <Table className={classes.table} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">No.</TableCell>
+            <TableCell align="center">Users</TableCell>
+            <TableCell align="center">Stadiums</TableCell>
+            <TableCell align="center">Borrow</TableCell>
+            <TableCell align="center">Bookingdate</TableCell>
+            <TableCell align="center">Bookingstart</TableCell>
+            <TableCell align="center">Bookingend</TableCell>
+            <TableCell align="center">Hourstime</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          { Confirmations.map((item:any )=> (
+            <TableRow key={item.id}>
+              <TableCell align="center">{item.id}</TableCell>
+              <TableCell align="center">{item.edges.confirmationUser.name}</TableCell>
+              <TableCell align="center">{item.edges.confirmationStadium.namestadium}</TableCell>
+              <TableCell align="center">{item.edges.confirmationBorrow.type}</TableCell>
+              <TableCell align="center">{moment(item.bookingdate).format("DD/MM/YYYY HH.mm น.")}</TableCell>
+              <TableCell align="center">{moment(item.bookingstart).format("DD/MM/YYYY HH.mm น.")}</TableCell>
+              <TableCell align="center">{moment(item.bookingend).format("DD/MM/YYYY HH.mm น.")}</TableCell>
+              <TableCell align="center">{item.hourstime}</TableCell>
+              <Button
+                onClick={() => {
+                  deleteConfirmation(item.id);
+                }}
+                style={{ marginLeft: 10 }}
+                variant="contained"
+                color="secondary"
+              >
+                Delete
+              </Button>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
         <Grid item xs={12}>
         </Grid>
         <Container maxWidth="sm">
@@ -140,7 +193,6 @@ const Confirmation: FC<{}> = () =>{
             </Grid>
             <Grid item xs={9}>
               <FormControl variant="outlined" className={classes.formControl}>
-                <InputLabel>เลือกสนาม</InputLabel>
                 <Select
                   name="stadium"
                   value={stadiumid || ""}
@@ -216,7 +268,6 @@ const Confirmation: FC<{}> = () =>{
             <Grid item xs={12}>
             <div className={classes.paper}>
               <Button
-
                 variant="contained"
                 color="primary"
                 size="large"
@@ -226,16 +277,16 @@ const Confirmation: FC<{}> = () =>{
               </Button>
 
               <Button
-
-              style={{ marginLeft: 20 }}
-              component={RouterLink}
-              to="/StadiumUI"
-              variant="contained"
-              color="default"
-              size="large"
+                style={{ marginLeft: 50 }}
+                component={RouterLink}
+                to="/"
+                variant="contained"
+                color="secondary"
+                size="large"
               >
-                ยกเลิก
+                Logout
               </Button>
+
               </div>
             </Grid>
           </Grid>

@@ -24,7 +24,7 @@ export interface ControllersConfirmation {
      * @type {string}
      * @memberof ControllersConfirmation
      */
-    adddate?: string;
+    bookingdate?: string;
     /**
      * 
      * @type {string}
@@ -73,7 +73,7 @@ export function ControllersConfirmationFromJSONTyped(json: any, ignoreDiscrimina
     }
     return {
         
-        'adddate': !exists(json, 'adddate') ? undefined : json['adddate'],
+        'bookingdate': !exists(json, 'bookingdate') ? undefined : json['bookingdate'],
         'bookingend': !exists(json, 'bookingend') ? undefined : json['bookingend'],
         'bookingstart': !exists(json, 'bookingstart') ? undefined : json['bookingstart'],
         'borrow': !exists(json, 'borrow') ? undefined : json['borrow'],
@@ -92,7 +92,7 @@ export function ControllersConfirmationToJSON(value?: ControllersConfirmation | 
     }
     return {
         
-        'adddate': value.adddate,
+        'bookingdate': value.bookingdate,
         'bookingend': value.bookingend,
         'bookingstart': value.bookingstart,
         'borrow': value.borrow,

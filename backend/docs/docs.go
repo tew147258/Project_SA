@@ -801,7 +801,7 @@ var doc = `{
         "controllers.Confirmation": {
             "type": "object",
             "properties": {
-                "adddate": {
+                "bookingdate": {
                     "type": "string"
                 },
                 "bookingend": {
@@ -857,8 +857,8 @@ var doc = `{
         "ent.Confirmation": {
             "type": "object",
             "properties": {
-                "adddate": {
-                    "description": "Adddate holds the value of the \"adddate\" field.",
+                "bookingdate": {
+                    "description": "Bookingdate holds the value of the \"bookingdate\" field.",
                     "type": "string"
                 },
                 "bookingend": {
@@ -962,8 +962,8 @@ var doc = `{
                     "description": "Password holds the value of the \"password\" field.",
                     "type": "string"
                 },
-                "tel": {
-                    "description": "Tel holds the value of the \"tel\" field.",
+                "telephone": {
+                    "description": "Telephone holds the value of the \"telephone\" field.",
                     "type": "string"
                 }
             }

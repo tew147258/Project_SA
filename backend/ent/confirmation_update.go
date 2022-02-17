@@ -31,9 +31,9 @@ func (cu *ConfirmationUpdate) Where(ps ...predicate.Confirmation) *ConfirmationU
 	return cu
 }
 
-// SetAdddate sets the adddate field.
-func (cu *ConfirmationUpdate) SetAdddate(t time.Time) *ConfirmationUpdate {
-	cu.mutation.SetAdddate(t)
+// SetBookingdate sets the bookingdate field.
+func (cu *ConfirmationUpdate) SetBookingdate(t time.Time) *ConfirmationUpdate {
+	cu.mutation.SetBookingdate(t)
 	return cu
 }
 
@@ -212,11 +212,11 @@ func (cu *ConfirmationUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			}
 		}
 	}
-	if value, ok := cu.mutation.Adddate(); ok {
+	if value, ok := cu.mutation.Bookingdate(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: confirmation.FieldAdddate,
+			Column: confirmation.FieldBookingdate,
 		})
 	}
 	if value, ok := cu.mutation.Bookingstart(); ok {
@@ -370,9 +370,9 @@ type ConfirmationUpdateOne struct {
 	mutation *ConfirmationMutation
 }
 
-// SetAdddate sets the adddate field.
-func (cuo *ConfirmationUpdateOne) SetAdddate(t time.Time) *ConfirmationUpdateOne {
-	cuo.mutation.SetAdddate(t)
+// SetBookingdate sets the bookingdate field.
+func (cuo *ConfirmationUpdateOne) SetBookingdate(t time.Time) *ConfirmationUpdateOne {
+	cuo.mutation.SetBookingdate(t)
 	return cuo
 }
 
@@ -549,11 +549,11 @@ func (cuo *ConfirmationUpdateOne) sqlSave(ctx context.Context) (c *Confirmation,
 		return nil, &ValidationError{Name: "ID", err: fmt.Errorf("missing Confirmation.ID for update")}
 	}
 	_spec.Node.ID.Value = id
-	if value, ok := cuo.mutation.Adddate(); ok {
+	if value, ok := cuo.mutation.Bookingdate(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
 			Type:   field.TypeTime,
 			Value:  value,
-			Column: confirmation.FieldAdddate,
+			Column: confirmation.FieldBookingdate,
 		})
 	}
 	if value, ok := cuo.mutation.Bookingstart(); ok {

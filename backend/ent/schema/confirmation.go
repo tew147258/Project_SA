@@ -14,7 +14,7 @@ type Confirmation struct {
 // Fields of the Confirmation.
 func (Confirmation) Fields() []ent.Field {
 	return []ent.Field{
-		field.Time("adddate"),
+		field.Time("bookingdate"),
 		field.Time("bookingstart"),
 		field.Time("bookingend"),
 		field.Int("hourstime"),

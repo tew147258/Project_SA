@@ -332,12 +332,12 @@ func (cq *ConfirmationQuery) WithConfirmationBorrow(opts ...func(*BorrowQuery)) 
 // Example:
 //
 //	var v []struct {
-//		Adddate time.Time `json:"adddate,omitempty"`
+//		Bookingdate time.Time `json:"bookingdate,omitempty"`
 //		Count int `json:"count,omitempty"`
 //	}
 //
 //	client.Confirmation.Query().
-//		GroupBy(confirmation.FieldAdddate).
+//		GroupBy(confirmation.FieldBookingdate).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
 //
@@ -358,11 +358,11 @@ func (cq *ConfirmationQuery) GroupBy(field string, fields ...string) *Confirmati
 // Example:
 //
 //	var v []struct {
-//		Adddate time.Time `json:"adddate,omitempty"`
+//		Bookingdate time.Time `json:"bookingdate,omitempty"`
 //	}
 //
 //	client.Confirmation.Query().
-//		Select(confirmation.FieldAdddate).
+//		Select(confirmation.FieldBookingdate).
 //		Scan(ctx, &v)
 //
 func (cq *ConfirmationQuery) Select(field string, fields ...string) *ConfirmationSelect {
